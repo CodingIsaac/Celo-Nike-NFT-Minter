@@ -2,7 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col, Badge, Stack, Row } from "react-bootstrap";
 import { truncateAddress } from "../../../utils";
+// import { useContractKit } from "@celo-tools/use-contractkit";
 import Identicon from "../../ui/Identicon";
+
 
 const NftCard = ({ nft }) => {
   const { image, description, owner, name, index, attributes } = nft;
