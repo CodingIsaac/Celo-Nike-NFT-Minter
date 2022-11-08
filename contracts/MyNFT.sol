@@ -13,6 +13,7 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
     Counters.Counter private _tokenIdCounter;
      uint MAX_SUPPLY = 1000;
+     
      struct Nike {
         address payable owner;
         uint nikePrice;
@@ -52,11 +53,10 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         nikeShoes.nikePrice += msg.value;
        (Bought, ) = payable(idOwner).call{value: msg.value} ("");
        require(Bought, "Failed");
+    }
 
-
-
-
-
+    function getTotalNike() external view returns(uint256) {
+        return MAX_SUPPLY;
     }
 
 
