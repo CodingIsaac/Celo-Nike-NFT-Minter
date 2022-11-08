@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 import { uploadFileToWebStorage } from "../../../utils/minter";
 
-const COLORS = ["Red", "Green", "Blue", "Cyan", "Yellow", "Purple"];
-const SHAPES = ["Circle", "Square", "Triangle"];
-// ...
+const MODEL = ["Tactoes", "Boseman"];
+const NIKE_GOBBLER_GEN = ["Mutant", "Spike", "Hunter"]
 
 // ...
 const AddNfts = ({ save, address }) => {
@@ -72,7 +71,7 @@ return (
       {/* Modal */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Create NFT</Modal.Title>
+          <Modal.Title>Create Nike NFT</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -84,7 +83,7 @@ return (
             >
               <Form.Control
                 type="text"
-                placeholder="Name of NFT"
+                placeholder="Name of Nike Gobbler NFT"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -112,7 +111,7 @@ return (
               onChange={async (e) => {
                 const imageUrl = await uploadFileToWebStorage(e);
                 if (!imageUrl) {
-                  alert("failed to upload image");
+                  alert("failed to upload Nike Gobbler image");
                   return;
                 }
                 setIpfsImage(imageUrl);
@@ -126,17 +125,17 @@ return (
               as="select"
               className={"mb-3"}
               onChange={async (e) => {
-                setAttributesFunc(e, "background");
+                setAttributesFunc(e, "model");
               }}
-              placeholder="Background"
+              placeholder="Nike MODEL"
             >
-              <option hidden>Background</option>
-              {COLORS.map((color) => (
+              <option hidden>Nike Gobbler Model</option>
+              {MODEL.map((model) => (
                 <option
-                  key={`background-${color.toLowerCase()}`}
-                  value={color.toLowerCase()}
+                  key={`model-${model.toLowerCase()}`}
+                  value={model.toLowerCase()}
                 >
-                  {color}
+                  {model}
                 </option>
               ))}
             </Form.Control>
@@ -145,39 +144,22 @@ return (
               as="select"
               className={"mb-3"}
               onChange={async (e) => {
-                setAttributesFunc(e, "color");
+                setAttributesFunc(e, "gen");
               }}
-              placeholder="NFT Color"
+              placeholder="NIKE GOBBLER GEN"
             >
-              <option hidden>Color</option>
-              {COLORS.map((color) => (
+              <option hidden>NIKE GOBBLER GEN</option>
+              {NIKE_GOBBLER_GEN.map((generation) => (
                 <option
-                  key={`color-${color.toLowerCase()}`}
-                  value={color.toLowerCase()}
+                  key={`generation-${generation.toLowerCase()}`}
+                  value={generation.toLowerCase()}
                 >
-                  {color}
+                  {generation}
                 </option>
               ))}
             </Form.Control>
 
-            <Form.Control
-              as="select"
-              className={"mb-3"}
-              onChange={async (e) => {
-                setAttributesFunc(e, "shape");
-              }}
-              placeholder="NFT Shape"
-            >
-              <option hidden>Shape</option>
-              {SHAPES.map((shape) => (
-                <option
-                  key={`shape-${shape.toLowerCase()}`}
-                  value={shape.toLowerCase()}
-                >
-                  {shape}
-                </option>
-              ))}
-            </Form.Control>
+           
           </Form>
         </Modal.Body>
 
@@ -199,7 +181,7 @@ return (
               handleClose();
             }}
           >
-            Create NFT
+            Create Nike Gobbler NFT
           </Button>
         </Modal.Footer>
       </Modal>
