@@ -3,22 +3,22 @@ import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 import { uploadFileToWebStorage } from "../../../utils/minter";
 
-const MODEL = ["Tactoes", "Boseman"];
-const NIKE_GOBBLER_GEN = ["Mutant", "Spike", "Hunter"]
+const MODEL = ["Tactoes", "Boseman", "Bonjour"];
+const NIKE_GOBBLER_GEN = ["Mutant", "Spike", "Hunter"];
 
 // ...
-const AddNfts = ({ save, address }) => {
-    const [name, setName] = useState("");
-    const [ipfsImage, setIpfsImage] = useState("");
-    const [description, setDescription] = useState("");
-    const [attributes, setAttributes] = useState([]);
-    const [show, setShow] = useState(false);
+  const AddNfts = ({ save, address }) => {
+  const [name, setName] = useState("");
+  const [ipfsImage, setIpfsImage] = useState("");
+  const [description, setDescription] = useState("");
+  const [attributes, setAttributes] = useState([]);
+  const [show, setShow] = useState(false);
   // ...
 
   // ...
   // check if all form data has been filled
   const isFormFilled = () =>
-  name && ipfsImage && description && attributes.length > 2;
+    name && ipfsImage && description && attributes.length > 2;
 
   // close the popup modal
   const handleClose = () => {
@@ -54,10 +54,10 @@ const AddNfts = ({ save, address }) => {
     // add a new attribute
     setAttributes((oldArray) => [...oldArray, attributeObject]);
   };
-// ...
+  // ...
 
-// ...
-return (
+  // ...
+  return (
     <>
       <Button
         onClick={handleShow}
@@ -71,7 +71,7 @@ return (
       {/* Modal */}
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Create Nike NFT</Modal.Title>
+          <Modal.Title>Create Nike Gobbler NFT</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -127,7 +127,7 @@ return (
               onChange={async (e) => {
                 setAttributesFunc(e, "model");
               }}
-              placeholder="Nike MODEL"
+              placeholder="Nike Gobbler Model"
             >
               <option hidden>Nike Gobbler Model</option>
               {MODEL.map((model) => (
@@ -146,9 +146,9 @@ return (
               onChange={async (e) => {
                 setAttributesFunc(e, "gen");
               }}
-              placeholder="NIKE GOBBLER GEN"
+              placeholder="Nike Gobbler Generation"
             >
-              <option hidden>NIKE GOBBLER GEN</option>
+              <option hidden>Nike Gobbler Generation</option>
               {NIKE_GOBBLER_GEN.map((generation) => (
                 <option
                   key={`generation-${generation.toLowerCase()}`}
@@ -158,8 +158,6 @@ return (
                 </option>
               ))}
             </Form.Control>
-
-           
           </Form>
         </Modal.Body>
 
@@ -192,8 +190,8 @@ return (
 
 // ...
 AddNfts.propTypes = {
-    save: PropTypes.func.isRequired,
-    address: PropTypes.string.isRequired,
-  };
-  
-  export default AddNfts;
+  save: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired,
+};
+
+export default AddNfts;
