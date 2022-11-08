@@ -1,7 +1,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const MyNFT = await hre.ethers.getContractFactory("MyNFT");
+  const MyNFT = await hre.ethers.getContractFactory("NikeGobbler");
   const myNFT = await MyNFT.deploy();
 
   await myNFT.deployed();
@@ -19,18 +19,18 @@ function storeContractData(contract) {
   }
 
   fs.writeFileSync(
-    contractsDir + "/MyNFT-address.json",
+    contractsDir + "/NikeGobbler-address.json",
     JSON.stringify({ MyNFT: contract.address }, undefined, 2)
   );
 
-  const MyNFTArtifact = artifacts.readArtifactSync("MyNFT");
+  const MyNFTArtifact = artifacts.readArtifactSync("NikeGobbler");
 
   fs.writeFileSync(
-    contractsDir + "/MyNFT.json",
+    contractsDir + "/NikeGobbler.json",
     JSON.stringify(MyNFTArtifact, null, 2)
   );
 }
-
+// MyNFT deployed to: 0xd1F90A67fC23574426f5cC6F839D2AD6e66EcDf6
 main()
   .then(() => process.exit(0))
   .catch((error) => {

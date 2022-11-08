@@ -43,7 +43,7 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
 
    */
 
-    function buyNike(uint256 tokenId) public payable returns(bool Bought) {
+    function buyListedNike(uint256 tokenId) public payable returns(bool Bought) {
         Nike storage nikeShoes = nike[tokenId];
         require( msg.value >= 0.1 ether,"Insufficient Balance");
         require( msg.sender != nikeShoes.owner, "Owner San't buy his minted Nike Shoe");

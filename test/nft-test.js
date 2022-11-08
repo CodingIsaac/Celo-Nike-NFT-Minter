@@ -1,7 +1,7 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
-describe("MyNFT", function () {
+describe("NikeGobbler", function () {
   this.timeout(50000);
 
   let myNFT;
@@ -12,7 +12,7 @@ describe("MyNFT", function () {
   this.beforeEach(async function () {
     // This is executed before each test
     // Deploying the smart contract
-    const MyNFT = await ethers.getContractFactory("MyNFT");
+    const MyNFT = await ethers.getContractFactory("NikeGobbler");
     [owner, acc1, acc2] = await ethers.getSigners();
 
     myNFT = await MyNFT.deploy();
