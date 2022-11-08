@@ -28,6 +28,7 @@ node_modules
 coverage
 coverage.json
 typechain
+.env-sample
 
 #Hardhat files
 cache
