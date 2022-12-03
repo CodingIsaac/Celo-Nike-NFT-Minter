@@ -1,4 +1,5 @@
 {
+  "homepage": "https://${CodingIsaac}.github.io/${Celo-Nike-NFT-Minter}",
   "name": "cnsregistry",
   "version": "0.1.0",
   "private": true,
@@ -20,6 +21,7 @@
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.7.1",
     "dotenv": "^10.0.0",
+    "gh-pages": "^4.0.0",
     "ipfs-http-client": "^57.0.3",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
