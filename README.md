@@ -1,4 +1,4 @@
-# Celo React Boilerplate
+# Celo Nike Gobbler NFT
 This repository contains a simple React boilerplate for Celo projects.
 In this project, I created a Nike GObbler, for the sale of Nike NFT's, this will allow users who can create unique gobblers to put them up for sale and equally earn rewards doing so.
 
