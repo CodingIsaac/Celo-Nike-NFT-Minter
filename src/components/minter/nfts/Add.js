@@ -7,7 +7,7 @@ const MODEL = ["Tactoes", "Boseman", "Bonjour"];
 const NIKE_GOBBLER_GEN = ["Mutant", "Spike", "Hunter"];
 
 // ...
-  const AddNfts = ({ save, address }) => {
+const AddNfts = ({ save, address }) => {
   const [name, setName] = useState("");
   const [ipfsImage, setIpfsImage] = useState("");
   const [description, setDescription] = useState("");

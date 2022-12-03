@@ -9,7 +9,7 @@ const makeFileObjects = (file) => {
 };
 const client = new Web3Storage({
   token:
-    "",
+    "hhhhh",
 });
 
 const storeFiles = async (files) => {
@@ -120,3 +120,4 @@ export const fetchNftContractOwner = async (minterContract) => {
     console.log({ e });
   }
 };
+
