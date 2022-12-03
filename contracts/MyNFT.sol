@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.2;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -12,60 +12,74 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
    
 
     Counters.Counter private _tokenIdCounter;
-     uint MAX_SUPPLY = 1000;
+     uint public MAX_SUPPLY = 1000;
      
      struct Nike {
         address payable owner;
         uint nikePrice;
-        uint256 nikeId;
+        bool forSale;
 
      }
-     mapping (uint256 => Nike) nike;
+     mapping (uint256 => Nike) public nikes;
 
     constructor() ERC721("MyNFT", "MNFT") {}
 
-    function safeMint(address to, string memory uri) public onlyOwner {
+    function safeMint(address to, string calldata uri, uint price) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
-        require(_tokenIdCounter.current() <= MAX_SUPPLY, "Maximum supply exceeded");
+        require(tokenId <= MAX_SUPPLY, "Maximum supply exceeded");
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
         _setTokenURI(tokenId, uri);
+        nikes[tokenId] = Nike(payable(msg.sender), price, false);
     }
 
-    // The following functions are overrides required by Solidity.
 
-    
+    /**
+        * @notice allows toggling of sale status for a shoe's NFT
+     */
+    function toggleSale(uint tokenId) public {
+        require(_exists(tokenId));
+        Nike storage currentNike = nikes[tokenId];
+        require(currentNike.owner == msg.sender);
+        currentNike.forSale = !currentNike.forSale;
+    }
 
-   /*
 
-   Users should be able to buy Nike.
-   Users should be able to mint Nike spike
-   Only owner should be able to get the length of the minted Nikes
 
-   */
 
+    /**
+        * @notice allow users to buy a shoe that is on sale
+        * @dev NFT is transferred to new owner and current holder of NFT is the one being paid
+     */
     function buyListedNike(uint256 tokenId) public payable returns(bool Bought) {
-        Nike storage nikeShoes = nike[tokenId];
-        require( msg.value >= 0.1 ether,"Insufficient Balance");
-        require( msg.sender != nikeShoes.owner, "Owner San't buy his minted Nike Shoe");
-        require(tokenId == nikeShoes.nikeId, "ID doesn't exist");
+        require(_exists(tokenId));
+        Nike storage currentNike = nikes[tokenId];
+        require(currentNike.forSale, "Shoe isn't for sale");
+        require(msg.value == currentNike.nikePrice,"Insufficient Balance");
+        require(msg.sender != currentNike.owner, "Owner San't buy his minted Nike Shoe");
         address idOwner = ownerOf(tokenId);
-        nikeShoes.nikePrice += msg.value;
+        currentNike.owner = payable(msg.sender);
+        currentNike.forSale = false;
+        _transfer(idOwner, msg.sender, tokenId);
        (Bought, ) = payable(idOwner).call{value: msg.value} ("");
        require(Bought, "Failed");
     }
 
+
     function getTotalNike() external view returns(uint256) {
-        return MAX_SUPPLY;
+        return _tokenIdCounter.current();
     }
 
 
 
-    function _beforeTokenTransfer(address from, address to, uint256 tokenId)
+    
+    // The following functions are overrides required by Solidity.
+
+    function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
         internal
         override(ERC721, ERC721Enumerable)
     {
-        super._beforeTokenTransfer(from, to, tokenId);
+        super._beforeTokenTransfer(from, to, tokenId, batchSize);
     }
 
     function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
