@@ -9,20 +9,24 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
-   
 
     Counters.Counter private _tokenIdCounter;
-     uint public MAX_SUPPLY = 1000;
+    uint public MAX_SUPPLY = 1000;
      
-     struct Nike {
+    struct Nike {
         address payable owner;
         uint nikePrice;
         bool forSale;
+    }
 
-     }
-     mapping (uint256 => Nike) public nikes;
+    mapping (uint256 => Nike) public nikes;
 
     constructor() ERC721("MyNFT", "MNFT") {}
+
+    modifier doesExitst(uint _tokenId){
+        require(_exists(tokenID));
+        _;
+    }
 
     function safeMint(address to, string calldata uri, uint price) public onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
@@ -33,26 +37,19 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
         nikes[tokenId] = Nike(payable(msg.sender), price, false);
     }
 
-
     /**
         * @notice allows toggling of sale status for a shoe's NFT
      */
-    function toggleSale(uint tokenId) public {
-        require(_exists(tokenId));
-        Nike storage currentNike = nikes[tokenId];
-        require(currentNike.owner == msg.sender);
-        currentNike.forSale = !currentNike.forSale;
+    function toggleSale(uint tokenId) public doesExitst(tokenId){
+        require(nikes[tokenId].owner == msg.sender);
+        nikes[tokenId].forSale = !nikes[tokenId].forSale;
     }
 
-
-
-
-    /**
+        /**
         * @notice allow users to buy a shoe that is on sale
         * @dev NFT is transferred to new owner and current holder of NFT is the one being paid
      */
-    function buyListedNike(uint256 tokenId) public payable returns(bool Bought) {
-        require(_exists(tokenId));
+    function buyListedNike(uint256 tokenId) public payable doesExitst(tokenId) returns(bool Bought){
         Nike storage currentNike = nikes[tokenId];
         require(currentNike.forSale, "Shoe isn't for sale");
         require(msg.value == currentNike.nikePrice,"Insufficient Balance");
@@ -65,14 +62,10 @@ contract NikeGobbler is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable {
        require(Bought, "Failed");
     }
 
-
     function getTotalNike() external view returns(uint256) {
         return _tokenIdCounter.current();
     }
 
-
-
-    
     // The following functions are overrides required by Solidity.
 
     function _beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)
